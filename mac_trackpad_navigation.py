@@ -12,9 +12,10 @@ Simplifies MacBook trackpad navigation to match Blender's gestures:
 from __future__ import annotations
 
 import math
+import sys
 import time
 
-from PySide6.QtCore import QEvent, QObject, Qt
+from PySide6.QtCore import QEvent, QObject, QSettings, Qt
 from PySide6.QtGui import QNativeGestureEvent, QPointingDevice, QVector3D, QWheelEvent
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -32,7 +33,8 @@ from tools.base import Tool
 
 # Global config dictionary
 CONFIG = {
-    "enabled": True,
+    # Other systems keep their own touchpad behaviour unless the user opts in.
+    "enabled": sys.platform == "darwin",
     "orbit_speed": 1.0,
     "pan_speed": 1.0,
     "zoom_speed": 0.025,
@@ -42,6 +44,29 @@ CONFIG = {
 }
 
 _dialog_instance = None
+_SETTINGS_PREFIX = "plugins/mac_trackpad_navigation/"
+
+
+def load_config() -> None:
+    """Read the saved preferences; anything missing or unreadable keeps its default."""
+    settings = QSettings()
+    for key, default in CONFIG.items():
+        value = settings.value(_SETTINGS_PREFIX + key)
+        if value is None:
+            continue
+        try:
+            if isinstance(default, bool):
+                CONFIG[key] = str(value).lower() in ("1", "true")
+            else:
+                CONFIG[key] = float(value)
+        except (TypeError, ValueError):
+            pass
+
+
+def save_config() -> None:
+    settings = QSettings()
+    for key, value in CONFIG.items():
+        settings.setValue(_SETTINGS_PREFIX + key, value)
 
 
 class MacTrackpadFilter(QObject):
@@ -210,7 +235,8 @@ class MacTrackpadFilter(QObject):
             return True
 
         elif gtype == Qt.NativeGestureType.SmartZoomNativeGesture:
-            act = getattr(self.viewport, "_act_zoom_extents", None)
+            # The action lives on the main window, not on the viewport.
+            act = getattr(self.viewport.window(), "_act_zoom_extents", None)
             if act is not None:
                 act.trigger()
                 event.accept()
@@ -250,7 +276,6 @@ def show_preferences_dialog(parent_window=None) -> QDialog:
     )
     lbl = QLabel(info_text, info_box)
     lbl.setTextFormat(Qt.TextFormat.RichText)
-    lbl.setStyleSheet("color: #333; line-height: 140%;")
     info_lay.addWidget(lbl)
     lay.addWidget(info_box)
 
@@ -304,6 +329,7 @@ def show_preferences_dialog(parent_window=None) -> QDialog:
         CONFIG["invert_orbit_x"] = chk_inv_x.isChecked()
         CONFIG["invert_orbit_y"] = chk_inv_y.isChecked()
         CONFIG["pinch_zoom"] = chk_pinch.isChecked()
+        save_config()
 
     chk_enabled.toggled.connect(on_change)
     spn_orbit.valueChanged.connect(on_change)
@@ -361,6 +387,7 @@ def attach_to_viewport(vp):
 
 def setup(app) -> None:
     """Extension initialization called on startup with ExtensionApp."""
+    load_config()
     attach_to_viewport(app.viewport)
 
     # Keep track when projects switch tabs or documents change

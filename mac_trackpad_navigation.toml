@@ -1,12 +1,12 @@
 id = "mac_trackpad_navigation"
-version = "1.0.0"
-author = "Remi Anton"
+version = "1.0.1"
+author = "Remi Clinton"
 author_url = "https://github.com/RemiAnton"
 license = "MIT"
 repository = "https://github.com/RemiAnton/ingetrazo-mac-trackpad-navigation"
-download = "https://raw.githubusercontent.com/RemiAnton/ingetrazo-mac-trackpad-navigation/v1.0.0/mac_trackpad_navigation.py"
-sha256 = "eb2b5e379a1603fc4a2fe8738eb7f6497ab53d8d32df64acbbf873ae97e977a3"
-ingetrazo = "0.5.5"
+download = "https://raw.githubusercontent.com/RemiAnton/ingetrazo-mac-trackpad-navigation/v1.0.1/mac_trackpad_navigation.py"
+sha256 = "7318651f089758556fed3f0e59fa05ceb951fab86f65eef6d072a53986124393"
+ingetrazo = "0.6.0"
 tags = ["productivity", "drawing"]
 
 [name]
