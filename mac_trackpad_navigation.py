@@ -47,6 +47,14 @@ _dialog_instance = None
 _SETTINGS_PREFIX = "plugins/mac_trackpad_navigation/"
 
 
+def _qt_attr(obj, name: str, default):
+    """Read a Qt property or zero-arg method without assuming which it is."""
+    if not hasattr(obj, name):
+        return default
+    value = getattr(obj, name)
+    return value() if callable(value) else value
+
+
 def load_config() -> None:
     """Read the saved preferences; anything missing or unreadable keeps its default."""
     settings = QSettings()
@@ -177,7 +185,10 @@ class MacTrackpadFilter(QObject):
         # -------------------------------------------------------------
         else:
             now = time.monotonic()
-            phase = getattr(event, "phase", lambda: Qt.ScrollPhase.NoScrollPhase)()
+            # QWheelEvent.phase is a property (enum), not a method — calling
+            # the enum raises TypeError and the outer try/except would drop
+            # the gesture.
+            phase = _qt_attr(event, "phase", Qt.ScrollPhase.NoScrollPhase)
 
             if phase == Qt.ScrollPhase.ScrollBegin or (now - self.last_event_time) > 0.25:
                 if hasattr(self.viewport, "_orbit_pivot_at"):
@@ -213,9 +224,9 @@ class MacTrackpadFilter(QObject):
         if not CONFIG["pinch_zoom"]:
             return False
 
-        gtype = getattr(event, "gestureType", lambda: None)()
+        gtype = _qt_attr(event, "gestureType", None)
         if gtype == Qt.NativeGestureType.ZoomNativeGesture:
-            val = float(getattr(event, "value", lambda: 0.0)())
+            val = float(_qt_attr(event, "value", 0.0))
             steps = val * 4.0
             pos = event.position()
             focus = None
