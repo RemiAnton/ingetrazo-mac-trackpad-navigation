@@ -13,10 +13,13 @@ An official community extension for **[IngeTrazo](https://ingetrazo.com)** that 
 
 ## Manual Installation
 
-1. Open IngeTrazo.
-2. In the menu bar, go to **Extensions ▸ Open extensions folder** (or open `~/.local/share/ingetrazo/plugins/`).
-3. Copy `mac_trackpad_navigation.py` into that directory.
-4. Restart IngeTrazo. The extension will automatically load and appear under the **Extensions** menu.
+**Preferred (single file):**
+
+1. Open IngeTrazo → **Extensions ▸ Open extensions folder** (on macOS this is usually `~/.local/share/ingetrazo/plugins/`).
+2. Copy **only** `mac_trackpad_navigation.py` into that folder.
+3. Restart IngeTrazo. Configure via **Extensions ▸ MAC Trackpad Navigation…** (`Ctrl+Alt+T`).
+
+**Whole-folder install** (clone or GitHub zip): copy the repository folder into the extensions folder. It must contain `__init__.py` at the top level — without that, IngeTrazo shows a disabled `⚠ … (load error)` entry. Do not leave an extra nested wrapper folder around the package.
 
 ## License
 
