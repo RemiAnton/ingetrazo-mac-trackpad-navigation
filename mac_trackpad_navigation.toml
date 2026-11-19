@@ -1,11 +1,11 @@
 id = "mac_trackpad_navigation"
-version = "1.0.1"
+version = "1.1.0"
 author = "Remi Clinton"
 author_url = "https://github.com/RemiAnton"
 license = "MIT"
 repository = "https://github.com/RemiAnton/ingetrazo-mac-trackpad-navigation"
-download = "https://raw.githubusercontent.com/RemiAnton/ingetrazo-mac-trackpad-navigation/v1.0.1/mac_trackpad_navigation.py"
-sha256 = "7318651f089758556fed3f0e59fa05ceb951fab86f65eef6d072a53986124393"
+download = "https://raw.githubusercontent.com/RemiAnton/ingetrazo-mac-trackpad-navigation/v1.1.0/mac_trackpad_navigation.py"
+sha256 = "c7af1e4a8293cd225198a9b9a41009521a718cafa0ba4ba8fb55caf65da9e5fd"
 ingetrazo = "0.6.0"
 tags = ["productivity", "drawing"]
 
@@ -15,6 +15,6 @@ es = "Navegación de Trackpad para Mac"
 pt = "Navegação de Trackpad para Mac"
 
 [summary]
-en = "Blender-style trackpad navigation for macOS: 2-finger orbit, Shift pan, Control zoom, and native pinch gestures."
-es = "Navegación de trackpad estilo Blender para macOS: órbita con 2 dedos, Shift para encuadre, Control para zoom y gestos táctiles."
-pt = "Navegação de trackpad estilo Blender para macOS: órbita con 2 dedos, Shift para panorâmica, Control para zoom e gestos de pinça."
+en = "Native Apple trackpad navigation for macOS: Blender/SketchUp/CAD presets, momentum coasting, 3D orbit pivot reticle, pinch-to-zoom, and rotate gestures."
+es = "Navegación táctil nativa para Mac: estilos Blender/SketchUp/CAD, inercia de movimiento, retículo 3D de órbita, zoom de pinza y rotación."
+pt = "Navegação nativa por trackpad para Mac: predefinições Blender/SketchUp/CAD, inércia fluida, retículo 3D de órbita, zoom de pinça e rotação."
